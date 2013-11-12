@@ -50,6 +50,9 @@ int getMove(int *move, int change) { /* 0 = good input, 1 = bad input */
 	else
 		return 1;
 	
+	if (board[move[0]][move[1]] != 0)
+		return 1;
+	
 	return 0;
 }
 
