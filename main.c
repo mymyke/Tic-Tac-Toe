@@ -1,4 +1,6 @@
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
 char getBoardLetter(int value) {
 	switch(value) {
@@ -41,9 +43,9 @@ void getMove(int **board, int *move, int *rows, int turn) { /* 0 = good input, 1
 		x = (int) input[0] - 65;
 		y = (int) input[1] - 49;
 		
-		if (x >= 0 && x <= 2) {
+		if (x >= 0 && x <= 2)
 			move[0] = x;
-		} else {
+		else {
 			attempts++;
 			continue;
 		}
@@ -63,34 +65,30 @@ void getMove(int **board, int *move, int *rows, int turn) { /* 0 = good input, 1
 		break;
 	}
 	
-	if (turn == 0) {
-		rows[x]++;
-		rows[y+3]++;
-		if (x==y && !(2-y==x))
-			rows[6]++;
-		else if (2-y==x)
-			rows[7]++;
-	} else {
-		rows[x] -= 1;
-		rows[y+3]--;
-		if (x==y && !(2-y==x))
-			rows[6]--;
-		else if (2-y==x)
-			rows[7]--;
-	}
+	int i;
+	if (turn == 0)
+		i = 1;
+	else
+		i = -1;
+	
+	rows[x] += i;
+	rows[y+3] += i;
+	if (x==y)
+		rows[6] += i;
+	if (2-y==x)
+		rows[7] += i;
 }
 
 void removeNewLine(char *line) {
 	int end = strlen(line);
-	if (line[end] == "\n")
-		line[end] = "\0";
+	if (&line[end] == "\n")
+		line[end] = *"\0";
 }
 
 int isFinished(int *rows, int turns, int *state) {
 	int i;
-	if (turns >= 9) {
+	if (turns >= 9)
 		*state = 3;
-	}
 	
 	for (i=0;i<8;i++) {
 		if (rows[i] >= 3) {
